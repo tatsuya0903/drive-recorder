@@ -26,11 +26,13 @@ export default defineComponent({
   components: {},
   setup() {
     const state = reactive<State>({})
+    const title = Env.title
     const commitHash7 = Env.commitHash?.substring(0, 7) ?? ''
     const commitUrl = Env.commitUrl
 
     return {
       ...toRefs(state),
+      title,
       commitHash7,
       commitUrl,
     }
