@@ -6,6 +6,6 @@ export class Env {
     if (this.commitHash === null) {
       return null
     }
-    return `https://github.com/tatsuya0903/vue2-pwa/commit/${this.commitHash}`
+    return `https://github.com/tatsuya0903/drive-recorder/commit/${this.commitHash}`
   }
 }

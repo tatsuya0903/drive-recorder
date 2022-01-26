@@ -1,6 +1,6 @@
 {
-  "name": "Vue2+PWA",
-  "short_name": "Vue2+PWA",
+  "name": "ドライブレコーダー",
+  "short_name": "ドラレコ",
   "theme_color": "#4DBA87",
   "icons": [
     { "src": "./img/icons/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
