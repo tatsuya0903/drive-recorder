@@ -1,16 +1,23 @@
 import { Base } from '@/models/base'
 
 export class Geo extends Base {
-  constructor(key: number | null, public speed: number) {
+  constructor(
+    key: number | null,
+    public speed: number,
+    public accuracy: number,
+    public altitudeAccuracy: number,
+  ) {
     super(key)
   }
 
   public static create(position: GeolocationPosition): Geo | null {
     const speed = position.coords.speed
-    if (speed === null) {
+    const accuracy = position.coords.accuracy
+    const altitudeAccuracy = position.coords.altitudeAccuracy
+    if (speed === null || accuracy === null || altitudeAccuracy === null) {
       return null
     }
-    return new Geo(null, speed)
+    return new Geo(null, speed, accuracy, altitudeAccuracy)
   }
 
   get speedMs(): number {
