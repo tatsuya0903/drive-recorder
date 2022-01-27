@@ -53,7 +53,7 @@ export default defineComponent({
   },
   setup(props: Props) {
     const state = reactive<State>({
-      direction: Directions.X_PLUS,
+      direction: Directions.X_MINUS,
     })
 
     const canvas = ref<HTMLCanvasElement>()
