@@ -1,9 +1,9 @@
 import { onBeforeMount, onBeforeUnmount, ref } from '@vue/composition-api'
+import { Acc } from '@/models/acc'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDeviceMotion = () => {
-  const x = ref<number | null>(null)
-  const y = ref<number | null>(null)
-  const z = ref<number | null>(null)
+  const acc = ref<Acc | null>(null)
 
   onBeforeMount(() => {
     window.addEventListener('devicemotion', handle)
@@ -12,9 +12,8 @@ export const useDeviceMotion = () => {
     window.removeEventListener('devicemotion', handle)
   })
   const handle = (e: DeviceMotionEvent) => {
-    x.value = e.accelerationIncludingGravity?.x ?? null
-    y.value = e.accelerationIncludingGravity?.y ?? null
-    z.value = e.accelerationIncludingGravity?.z ?? null
+    // acc.value = Acc.create(e.acceleration)
+    acc.value = Acc.create(e.accelerationIncludingGravity)
   }
-  return { x, y, z }
+  return { acc }
 }
