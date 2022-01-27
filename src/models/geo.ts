@@ -14,10 +14,10 @@ export class Geo extends Base {
     const speed = position.coords.speed
     const accuracy = position.coords.accuracy
     const altitudeAccuracy = position.coords.altitudeAccuracy
-    if (speed === null || accuracy === null || altitudeAccuracy === null) {
+    if (speed === null ) {
       return null
     }
-    return new Geo(null, speed, accuracy, altitudeAccuracy)
+    return new Geo(null, speed, accuracy ?? -1, altitudeAccuracy ?? -1)
   }
 
   get speedMs(): number {
