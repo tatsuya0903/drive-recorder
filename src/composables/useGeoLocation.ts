@@ -7,7 +7,10 @@ export const useGeoLocation = () => {
 
   let watchId: number | null = null
   onBeforeMount(() => {
-    watchId = navigator.geolocation.watchPosition(handle)
+    const options: PositionOptions = {
+      enableHighAccuracy: true,
+    }
+    watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, options)
   })
   onBeforeUnmount(() => {
     if (watchId !== null) {
@@ -15,8 +18,11 @@ export const useGeoLocation = () => {
     }
   })
 
-  const handle: PositionCallback = (position: GeolocationPosition) => {
+  const successCallback: PositionCallback = (position: GeolocationPosition) => {
     geo.value = Geo.create(position)
+  }
+  const errorCallback: PositionErrorCallback = (positionError: GeolocationPositionError) => {
+    // TODO: エラー処理を実装
   }
 
   return { geo }
