@@ -4,3 +4,10 @@ declare module '*.vue' {
   const component: defineComponent<{}, {}, unknown>
   export default component
 }
+
+import google from 'google.visualization'
+declare global {
+  interface Window {
+    google: google
+  }
+}
