@@ -6,10 +6,16 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, toRefs, watch } from '@vue/composition-api'
+
+// eslint-disable-next-line no-undef
+const charts = google.charts
+// eslint-disable-next-line no-undef
+const visualization = google.visualization
 // eslint-disable-next-line no-undef
 import GaugeChartOptions = google.visualization.GaugeChartOptions
+// eslint-disable-next-line no-undef
+import Gauge = google.visualization.Gauge
 
-const google = window.google
 type State = {}
 type Props = {
   speed: number
@@ -23,6 +29,15 @@ export default defineComponent({
     const state = reactive<State>({})
 
     const target = ref<HTMLDivElement>()
+
+    let gauge: Gauge | null = null
+    const initChart = () => {
+      const element = target.value
+      if (!element) {
+        return
+      }
+      gauge = new visualization.Gauge(element)
+    }
     const drawChart = () => {
       const element = target.value
       if (!element) {
@@ -30,17 +45,12 @@ export default defineComponent({
       }
       const width = element.clientWidth
       const height = element.clientHeight
-      const data = google.visualization.arrayToDataTable([
+      const data = visualization.arrayToDataTable([
         ['Label', 'Value'],
         ['km/h', props.speed],
       ])
 
       const options: GaugeChartOptions = {
-        animation: {
-          duration: 200,
-          easing: 'linear', // linear, in, out, inAndOut
-          startup: true,
-        },
         width: width,
         height: height,
         min: 0,
@@ -52,19 +62,21 @@ export default defineComponent({
         minorTicks: 5,
         majorTicks: [0, 10, 20, 30, 40, 50, 60, 70, 80].map((v) => `${v}`),
       }
-
-      const chart = new google.visualization.Gauge(element)
-      chart.draw(data, options)
+      gauge?.draw(data, options)
     }
 
     onMounted(() => {
-      google.charts.load('current', { packages: ['gauge'] })
-      google.charts.setOnLoadCallback(drawChart)
+      charts.load('current', { packages: ['gauge'] })
+      charts.setOnLoadCallback(() => {
+        initChart()
+        drawChart()
+      })
     })
 
     watch(
       () => props.speed,
       () => {
+        console.log(`watch >> ${props.speed}`)
         drawChart()
       },
     )
