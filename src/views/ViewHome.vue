@@ -30,7 +30,7 @@
       </template>
     </div>
 
-    <div style="width: 200px; position: absolute; left: 0px; top: 0px">
+    <div style="position: fixed; right: 0px; bottom: 8px; width: 100%; max-width: 50vw">
       <SpeedGuage v-bind:speed="speed" />
     </div>
   </div>

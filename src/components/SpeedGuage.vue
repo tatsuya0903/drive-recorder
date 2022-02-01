@@ -1,6 +1,7 @@
 <template>
-  <div class="speed-guage">
+  <div class="speed-guage" v-bind:style="styleObject">
     <div ref="target" class="speed-guage__target" />
+    <div class="speed-guage__border" />
   </div>
 </template>
 
@@ -40,25 +41,25 @@ export default defineComponent({
       if (!element) {
         return
       }
-      const width = element.clientWidth
-      const height = element.clientHeight
+
       // eslint-disable-next-line no-undef
       const data = google.visualization.arrayToDataTable([
         ['Label', 'Value'],
-        ['km/h', props.speed],
+        [`${props.speed.toFixed(0)}`, props.speed],
       ])
 
+      const size = element.clientWidth
       const options: GaugeChartOptions = {
-        width: width,
-        height: height,
-        min: 0,
-        max: 80,
+        width: size,
+        height: size,
+        min: -10,
+        max: 90,
         yellowFrom: 60,
         yellowTo: 70,
         redFrom: 70,
         redTo: 80,
         minorTicks: 5,
-        majorTicks: [0, 10, 20, 30, 40, 50, 60, 70, 80].map((v) => `${v}`),
+        majorTicks: [-10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90].map((v) => `${v}`),
       }
       gauge?.draw(data, options)
     }
@@ -77,7 +78,6 @@ export default defineComponent({
     watch(
       () => props.speed,
       () => {
-        console.log(`watch >> ${props.speed}`)
         drawChart()
       },
     )
@@ -93,14 +93,27 @@ export default defineComponent({
 <style lang="scss" scoped>
 .speed-guage {
   position: relative;
+  overflow: hidden;
   width: 100%;
-  padding-top: 100%;
+  box-sizing: border-box;
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 64%; /* 高さを幅の64%に固定 */
+  }
+
   .speed-guage__target {
     position: absolute;
-    left: 0px;
     top: 0px;
     left: 0px;
+    right: 0px;
+  }
+  .speed-guage__border {
+    position: absolute;
+    left: 7%;
+    right: 7%;
     bottom: 0px;
+    border-bottom: 1px solid gray;
   }
 }
 </style>
