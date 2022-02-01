@@ -29,27 +29,37 @@
         <div>精度：{{ geo.accuracy.toFixed(1) }}(m)</div>
       </template>
     </div>
+
+    <div style="position: fixed; right: 0px; bottom: 8px; width: 100%; max-width: 50vw">
+      <SpeedGuage v-bind:speed="speed" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from '@vue/composition-api'
+import { computed, defineComponent, reactive, toRefs } from '@vue/composition-api'
 import { useDeviceMotion } from '@/composables/useDeviceMotion'
 import AccMeter from '@/components/AccMeter.vue'
 import { useGeoLocation } from '@/composables/useGeoLocation'
+import SpeedGuage from '@/components/SpeedGuage.vue'
 
 type State = {}
 export default defineComponent({
-  components: { AccMeter },
+  components: { SpeedGuage, AccMeter },
   setup() {
-    const state = reactive<State>({})
+    const state = reactive<State>({ debugSpeed: null })
     const { acc } = useDeviceMotion()
     const { geo } = useGeoLocation()
+
+    const speed = computed(() => {
+      return geo.value?.speedKmh ?? 0
+    })
 
     return {
       ...toRefs(state),
       acc,
       geo,
+      speed,
     }
   },
 })
