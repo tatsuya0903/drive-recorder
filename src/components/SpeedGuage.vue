@@ -8,10 +8,6 @@
 import { defineComponent, onMounted, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
 // eslint-disable-next-line no-undef
-const charts = google.charts
-// eslint-disable-next-line no-undef
-const visualization = google.visualization
-// eslint-disable-next-line no-undef
 import GaugeChartOptions = google.visualization.GaugeChartOptions
 // eslint-disable-next-line no-undef
 import Gauge = google.visualization.Gauge
@@ -36,7 +32,8 @@ export default defineComponent({
       if (!element) {
         return
       }
-      gauge = new visualization.Gauge(element)
+      // eslint-disable-next-line no-undef
+      gauge = new google.visualization.Gauge(element)
     }
     const drawChart = () => {
       const element = target.value
@@ -45,7 +42,8 @@ export default defineComponent({
       }
       const width = element.clientWidth
       const height = element.clientHeight
-      const data = visualization.arrayToDataTable([
+      // eslint-disable-next-line no-undef
+      const data = google.visualization.arrayToDataTable([
         ['Label', 'Value'],
         ['km/h', props.speed],
       ])
@@ -66,8 +64,11 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      charts.load('current', { packages: ['gauge'] })
-      charts.setOnLoadCallback(() => {
+      // eslint-disable-next-line no-undef
+      google.charts.load('current', { packages: ['gauge'] })
+
+      // eslint-disable-next-line no-undef
+      google.charts.setOnLoadCallback(() => {
         initChart()
         drawChart()
       })
