@@ -21,7 +21,7 @@ module.exports = {
         skipWaiting: true,
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/www.gstatic.com\/charts/,
+            urlPattern: /^https:\/\/www\.gstatic\.com\/charts/,
             handler: 'cacheFirst',
             options: {
               cacheName: 'google-charts-cache',
