@@ -23,8 +23,11 @@ module.exports = {
           {
             urlPattern: /^https:\/\/www.gstatic.com\/charts/,
             handler: 'cacheFirst',
-            expiration: {
-              maxAgeSeconds: 60 * 60 * 24 * 30,
+            options: {
+              cacheName: 'google-charts-cache',
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 30,
+              },
             },
           },
         ],
