@@ -19,6 +19,21 @@ module.exports = {
     config.plugins.push(
       new GenerateSW({
         skipWaiting: true,
+        runtimeCaching: [
+          {
+            urlPattern: new RegExp('^https://www.gstatic.com/charts/'),
+            handler: 'cacheFirst',
+            options: {
+              cacheName: 'google-charts',
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
       }),
     )
   },
