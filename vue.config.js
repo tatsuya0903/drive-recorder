@@ -24,9 +24,9 @@ module.exports = {
             urlPattern: new RegExp('^https://www.gstatic.com/charts/'),
             handler: 'cacheFirst',
             options: {
-              cacheName: 'google-charts-cache',
+              cacheName: 'google-charts',
               expiration: {
-                maxAgeSeconds: 60 * 60 * 24 * 30,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
               },
               cacheableResponse: {
                 statuses: [0, 200],
