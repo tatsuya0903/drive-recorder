@@ -154,8 +154,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .acc-meter {
   position: relative;
-  width: min(90vw, 90vh);
-  height: min(90vw, 90vh);
+  width: min(60vw, 60vh);
+  height: min(60vw, 60vh);
 
   .acc-meter__canvas {
     position: absolute;

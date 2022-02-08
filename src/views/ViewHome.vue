@@ -4,7 +4,7 @@
       <div>Acceleration is NULL</div>
     </template>
     <template v-else>
-      <div style="display: flex; justify-content: center">
+      <div style="position: fixed; top: 60px; right: 20vw; width: 30vw; height: 30vw">
         <AccMeter v-bind:acc="acc" />
       </div>
     </template>
@@ -14,7 +14,7 @@
         position: fixed;
         right: 16px;
         top: 64px;
-        font-size: 20px;
+        font-size: 12px;
         color: red;
         text-align: right;
       "
@@ -29,12 +29,12 @@
         <div>精度：{{ geo.accuracy.toFixed(1) }}(m)</div>
       </template>
     </div>
+    <div style="position: fixed; right: 0px; bottom: 8px; width: 100%; max-width: 30vw">
+      <SpeedGuage v-bind:speed="speed" />
+    </div>
 
     <div style="position: fixed; left: 0px; bottom: 0px; width: 100%; max-width: 50vw">
       <LineChart v-bind:value="lineChartValue" />
-    </div>
-    <div style="position: fixed; right: 0px; bottom: 8px; width: 100%; max-width: 50vw">
-      <SpeedGuage v-bind:speed="speed" />
     </div>
   </div>
 </template>

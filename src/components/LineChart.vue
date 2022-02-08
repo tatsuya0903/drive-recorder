@@ -15,6 +15,7 @@ import {
   toRefs,
   watch,
 } from '@vue/composition-api'
+import { Acc } from '@/models/acc'
 
 declare let google: any
 
@@ -48,6 +49,10 @@ export default defineComponent({
       }
       console.warn(`addValue >> ${values.length}, ${values.map((v) => v.time).join(', ')}`)
       const value = Object.assign({}, props.value)
+      value.speed = Math.abs(value.speed)
+      value.accX = Math.abs(value.accX / Acc.gravity)
+      value.accY = Math.abs(value.accY / Acc.gravity)
+      value.accZ = Math.abs(value.accZ / Acc.gravity)
       values.unshift(value)
       values.splice(100)
     }
@@ -62,7 +67,7 @@ export default defineComponent({
       }
 
       // eslint-disable-next-line no-undef
-      chart = new google.charts.Line(element)
+      chart = new google.visualization.LineChart(element)
     }
     const drawChart = (values: Value[]) => {
       const data = new google.visualization.DataTable()
@@ -83,21 +88,20 @@ export default defineComponent({
         chart: {
           title: '',
         },
-        width: 500,
-        height: 200,
+        width: '60vh',
+        height: '60vh',
         series: {
-          // Gives each series an axis name that matches the Y-axis below.
-          0: { axis: 'Speed' },
-          1: { axis: 'Acc' },
-          2: { axis: 'Acc' },
-          3: { axis: 'Acc' },
+          0: { targetAxisIndex: 0, color: 'red', lineWidth: 1 },
+          1: { targetAxisIndex: 1, color: 'blue', lineWidth: 1 },
+          2: { targetAxisIndex: 1, color: 'orange', lineWidth: 1 },
+          3: { targetAxisIndex: 1, color: 'green', lineWidth: 1 },
         },
-        axes: {
-          // Adds labels to each axis; they don't have to match the axis names.
-          y: {
-            Speed: { label: '速度' },
-            Acc: { label: '加速度' },
-          },
+        vAxes: {
+          0: { title: '速度(km/h)', minValue: 0, maxValue: 60 },
+          1: { title: '加速度(G)', minValue: 0, maxValue: 0.3 },
+        },
+        hAxis: {
+          ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         },
       }
       chart.draw(data, options)

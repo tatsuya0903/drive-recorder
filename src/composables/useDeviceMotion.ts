@@ -17,7 +17,8 @@ export const useDeviceMotion = () => {
   const handle = (e: DeviceMotionEvent) => {
     // acc.value = Acc.create(e.acceleration)
 
-    const value = Acc.create(e.accelerationIncludingGravity)
+    // const value = Acc.create(e.accelerationIncludingGravity)
+    const value = Acc.create(e.acceleration)
     if (value !== null) {
       lowPathFilter.add(value)
       acc.value = lowPathFilter.renew()

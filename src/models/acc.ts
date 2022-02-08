@@ -1,6 +1,8 @@
 import { Base } from '@/models/base'
 
 export class Acc extends Base {
+  static readonly gravity = 9.807
+
   constructor(key: number | null, public x: number, public y: number, public z: number) {
     super(key)
   }
