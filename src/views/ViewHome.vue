@@ -30,6 +30,9 @@
       </template>
     </div>
 
+    <div style="position: fixed; left: 0px; bottom: 0px; width: 100%; max-width: 50vw">
+      <LineChart v-bind:value="lineChartValue" />
+    </div>
     <div style="position: fixed; right: 0px; bottom: 8px; width: 100%; max-width: 50vw">
       <SpeedGuage v-bind:speed="speed" />
     </div>
@@ -42,10 +45,11 @@ import { useDeviceMotion } from '@/composables/useDeviceMotion'
 import AccMeter from '@/components/AccMeter.vue'
 import { useGeoLocation } from '@/composables/useGeoLocation'
 import SpeedGuage from '@/components/SpeedGuage.vue'
+import LineChart, { Value } from '@/components/LineChart.vue'
 
 type State = {}
 export default defineComponent({
-  components: { SpeedGuage, AccMeter },
+  components: { LineChart, SpeedGuage, AccMeter },
   setup() {
     const state = reactive<State>({ debugSpeed: null })
     const { acc } = useDeviceMotion()
@@ -55,11 +59,25 @@ export default defineComponent({
       return geo.value?.speedKmh ?? 0
     })
 
+    const lineChartValue = computed<Value | null>(() => {
+      if (acc.value === null && geo.value === null) {
+        return null
+      }
+      return {
+        time: new Date().getTime(),
+        accX: acc.value?.x ?? 0,
+        accY: acc.value?.y ?? 0,
+        accZ: acc.value?.z ?? 0,
+        speed: speed.value,
+      }
+    })
+
     return {
       ...toRefs(state),
       acc,
       geo,
       speed,
+      lineChartValue,
     }
   },
 })
